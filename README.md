@@ -17,18 +17,18 @@ Exemplos:
 
 ## Questão 2
 
-Neste desafio de SQL, sua consulta deverá retornar os nomes das pessoas que são reportadas (excluindo valores nulos), o número de mebros que reportam a eles e a idade média desses membros como um número inteiro. As linhas devem ser ordenadas pelos nomes em ordem alfabética. Se abaixo a tabela com as informações:
+Neste desafio de SQL, sua consulta deverá retornar os nomes das pessoas que são reportadas (excluindo valores nulos), o número de mebros que reportam a eles e a idade média desses membros como um número inteiro. As linhas devem ser ordenadas pelos nomes em ordem alfabética. Segue abaixo a tabela com as informações:
 
-| ID | FirstaName | LasltName | ResporsTo | Position   | Age |
-| -- | ------ | -------- | -------------- | ---------- | --- |
-|  1 | Daniel | Smith    | Bob Boss       | Engineer   |  25 |
-|  2 | Mike   | White    | Bob Boss       | Contractor |  22 |
-|  3 | Jenny  | Richards | null           | CEO        |  45 |
-|  4 | Robert | Black    | Daniel Smith   | Sales      |  22 |
-|  5 | Noah   | Fritz    | Jenny Richards | Assistant  |  30 |
-|  6 | David  | S        | Jenny Richards | Director   |  32 |
-|  7 | Ashley | Wells    | Davidi S       | Assistant  |  25 |
-|  8 | Ashley | Johnson  | null           | Intern     |  25 |
+| ID | FirstName | LastName | ReportsTo      | Position   | Age |
+| -- | ----------| -------- | -------------- | ---------- | --- |
+|  1 | Daniel    | Smith    | Bob Boss       | Engineer   |  25 |
+|  2 | Mike      | White    | Bob Boss       | Contractor |  22 |
+|  3 | Jenny     | Richards | null           | CEO        |  45 |
+|  4 | Robert    | Black    | Daniel Smith   | Sales      |  22 |
+|  5 | Noah      | Fritz    | Jenny Richards | Assistant  |  30 |
+|  6 | David     | S        | Jenny Richards | Director   |  32 |
+|  7 | Ashley    | Wells    | Davidi S       | Assistant  |  25 |
+|  8 | Ashley    | Johnson  | null           | Intern     |  25 |
 
 ## Questão 3
 
@@ -37,4 +37,4 @@ Neste desafio de SQL, implemente as consultas abaixo considerando o modelo conce
 ![Alt text](image.png)
 
 1. Exiba a placa e o nome dos donos de todos os veículos
-1. Exiba o endereço, a data de entrada e de saída dos estacionamentos do veículo de placa "BTG-20222"
+1. Exiba o endereço, a data de entrada e de saída dos estacionamentos do veículo de placa "BTG-2022"
