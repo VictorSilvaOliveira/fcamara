@@ -1,4 +1,6 @@
 
+using System.Diagnostics;
+
 namespace Fcamara.ATM.App;
 
 public class BillDispenser
@@ -17,24 +19,33 @@ public class BillDispenser
         var currentState = _billDispenserState.Clone();
         var partialAmount = amount;
         var withdraw = new List<Bill>();
-        var billIndex = 0;
+        var highestBillSkipIndex = 0;
                 
-        currentState.CheckBalance(amount);
+        if (!currentState.CheckBalance(amount))
+        {
+            throw new InsuficienteBillsToWithdrawnException();
+        }
 
         while (partialAmount > 0)
         {
-            var bill = currentState.GetNextBill(billIndex);
+            var bill = currentState.GetNextBill(partialAmount, highestBillSkipIndex);
 
-            if ((int)bill.Value > partialAmount)
+            if (bill == null)
             {
-                billIndex++;
-                continue;
+                throw new ValueBillMismatchException(); 
             }
+
             withdraw.Add(bill);
             currentState.DrawBill(bill);
             partialAmount -= (int)bill.Value;
-            
-            currentState.CheckBillMatch(partialAmount);
+
+            if (!currentState.CheckBillMatch(partialAmount, highestBillSkipIndex))
+            {
+                currentState = _billDispenserState.Clone();
+                highestBillSkipIndex = currentState.GetNextBillIndex(withdraw.Max(b => (int)b.Value));
+                withdraw = new List<Bill>();
+                partialAmount = amount;
+            }
         }
         
         _billDispenserState = currentState;

@@ -97,6 +97,59 @@ public class BillDispenserTest
         Assert.True(billsOnlyTen.Count(b => b.Value == BillValueType.TEN) == 6, "Total of 10 bill don't match");
        
         Assert.True(billDispenser.TotalBills == 0, "Total of 1ill on dispenser don't match");
+
+
+
+    }
+
+    [Fact]
+    public void BillDispenser_60_Withdraw_WithoutTen_Success()
+    {
+        var billsReservations = new List<Bill>(15)
+        {
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.FIFTY },
+
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY },
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY },
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY }
+        };
+
+        var billDispenser = new BillDispenser(billsReservations);
+
+        Assert.True(billDispenser.TotalBills == 4, "Total of bill on dispenser don't match");
+
+        var billsWithoutTen = billDispenser.MakeWithdrawOf(60);
+
+        Assert.True(billsWithoutTen.Count() == 3, "Total of bill don't match");
+        Assert.True(billsWithoutTen.Count(b => b.Value == BillValueType.TWENTY) == 3, "Total of 20 bill don't match");
+      
+        Assert.True(billDispenser.TotalBills == 1, "Total of bill on dispenser don't match");
+
+    }
+
+    [Fact]
+    public void BillDispenser_80_Withdraw_WithoutTen_Success()
+    {
+        var billsReservations = new List<Bill>(15)
+        {
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.FIFTY },
+
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY },
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY },
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY },
+            new Bill(){ Serie = Guid.NewGuid().ToString(), Value = BillValueType.TWENTY }
+        };
+
+        var billDispenser = new BillDispenser(billsReservations);
+
+        Assert.True(billDispenser.TotalBills == 5, "Total of bill on dispenser don't match");
+
+        var billsWithoutTen = billDispenser.MakeWithdrawOf(80);
+
+        Assert.True(billsWithoutTen.Count() == 4, "Total of bill don't match");
+        Assert.True(billsWithoutTen.Count(b => b.Value == BillValueType.TWENTY) == 4, "Total of 20 bill don't match");
+      
+        Assert.True(billDispenser.TotalBills == 1, "Total of bill on dispenser don't match");
     }
 
     [Fact]

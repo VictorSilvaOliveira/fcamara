@@ -1,3 +1,4 @@
+
 namespace Fcamara.ATM.App;
 
 internal class BillDispenserState
@@ -13,13 +14,9 @@ internal class BillDispenserState
             }
             _billsInfo[bill.Value] += 1;
             _bills.Add(bill);
-            _totalValue += (int)bill.Value;
-            _minBill = Math.Min(_minBill, (int)bill.Value);
         }
     }
     private SortedSet<Bill> _bills = new SortedSet<Bill>(new BillValueReverseSort());
-    private int _totalValue = 0;
-    private int _minBill = Int32.MaxValue;
     IDictionary<BillValueType, int> _billsInfo = new SortedDictionary<BillValueType, int>(new BillValueTypeReverseSort());
 
     internal int TotalBills => _bills.Count;
@@ -29,14 +26,13 @@ internal class BillDispenserState
         return new BillDispenserState(new List<Bill>(_bills));
     }
 
-    internal Bill GetNextBill(int billIndex)
+    internal Bill? GetNextBill(int amount, int billIndex)
     {
-        return _bills.Skip(billIndex).First();
+        return _bills.Skip(billIndex).FirstOrDefault(b => (int)b.Value <= amount);
     }
 
     internal void DrawBill(Bill bill)
     {
-        _totalValue -= (int)bill.Value;
         _billsInfo[bill.Value] -= 1;
         if (_billsInfo[bill.Value] == 0)
         {
@@ -45,19 +41,18 @@ internal class BillDispenserState
         _bills.Remove(bill);
     }
 
-    internal void CheckBalance(int amount)
+    internal bool CheckBalance(int amount)
     {
-        if (_totalValue < amount)
-        {
-            throw new InsuficienteBillsToWithdrawnException();
-        }
+        return _bills.Sum(b => (int)b.Value) >= amount;
     }
 
-    internal void CheckBillMatch(int partialAmount)
+    internal bool CheckBillMatch(int partialAmount, int billIndex)
     {
-        if (partialAmount > 0 && _minBill > partialAmount)
-        {
-            throw new ValueBillMismatchException();
-        }
+        return partialAmount == 0 || _bills.Skip(billIndex).Min(b => (int)b.Value) <= partialAmount;
+    }
+
+    internal int GetNextBillIndex(int minBill)
+    {
+        return _bills.Count(b=> (int)b.Value >= minBill);
     }
 }
